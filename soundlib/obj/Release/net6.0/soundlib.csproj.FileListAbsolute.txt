@@ -20,3 +20,4 @@
 /Users/mihailsunin/Desktop/C#/soundlib/soundlib/obj/Release/net6.0/soundlib.pdb
 /Users/mihailsunin/Desktop/C#/soundlib/soundlib/obj/Release/net6.0/soundlib.genruntimeconfig.cache
 /Users/mihailsunin/Desktop/C#/soundlib/soundlib/obj/Release/net6.0/ref/soundlib.dll
+/Users/mihailsunin/Desktop/C#/soundlib/soundlib/bin/Release/net6.0/config.json

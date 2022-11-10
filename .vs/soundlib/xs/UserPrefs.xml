@@ -2,8 +2,6 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="soundlib/main.cs">
     <Files>
       <File FileName="soundlib/main.cs" Line="13" Column="10" IsPinned="True" />
@@ -20,7 +18,6 @@
           <Node name="soundlib" expanded="True">
             <Node name="soundlib" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="main.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -30,6 +27,8 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
