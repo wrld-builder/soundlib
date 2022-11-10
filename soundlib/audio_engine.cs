@@ -8,9 +8,52 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Media;
+using FMOD;
 
 namespace soundlib
 {
+    // for crossplatform code using
+    internal class AudioEngine
+    {
+        public virtual void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP) { }      // playing sound by reading bytes array using FMOD
+
+        public virtual void PlayAudioByteArray(byte[] fileByteArray) { }            // playing sound by reading bytes
+    }
+
+    namespace AudioEngineNamespaceFMOD
+    {
+        internal class AudioEngineFMOD : AudioEngine
+        {
+            // FMOD playing by byte array are not supported at most of usings [unstable]
+            public override void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP)
+            {
+                FMOD.Sound sound = new FMOD.Sound();
+                var info = new FMOD.CREATESOUNDEXINFO();
+
+                mainSystem.createStream(fileByteArray, FMOD.MODE.CREATESTREAM, ref info, out sound);
+
+                mainSystem.playSound(sound, channelGroup, false, out mainChannel);
+                mainSystem.createDSPByType(Helper.FMODHelper.generateRandomDsp(3), out mainDSP);
+                mainChannel.addDSP(0, mainDSP);
+                System.Threading.Thread.Sleep(new Random().Next(5000, 8000));
+
+                sound.release();
+                mainChannel.removeDSP(mainDSP);
+            }
+        }
+    }
+
+    namespace MacOs
+    {
+        internal class AudioEngineWindows64 : AudioEngine
+        {
+            public override void PlayAudioByteArray(byte[] fileByteArray)
+            {
+                
+            }
+        }
+    }
+
     internal class WaterPlayer
     {
         private FMOD.System mainSystem;
@@ -50,7 +93,7 @@ namespace soundlib
             // warning: use typeOS only like variable
             // else reference logic error
 
-            Console.Write(this.typeOS.ToString());
+            Console.WriteLine(this.typeOS.ToString());
 
             try
             {
@@ -99,6 +142,12 @@ namespace soundlib
                         this.fillBytesOfAssetsArray();           // fill default bytes array with assets
                         this.fillBytesOfReversedAssetsArray();   // fill reversed bytes array with reversed assets
                     }
+
+                    else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
+                    {
+                        this.fillBytesOfAssetsArray();
+                        this.fillBytesOfReversedAssetsArray();
+                    }
                 }
             }
         }
@@ -114,8 +163,8 @@ namespace soundlib
             this.channelGroup.clearHandle();
         }
 
-        /* initialize bytesOfAssetsArray byte[][] */
-        /* calling in WaterPlayer() constructor */
+                                                                /* initialize bytesOfAssetsArray byte[][] */
+                                                                /* calling in WaterPlayer() constructor */
         private void fillBytesOfAssetsArray()
         {
             string[] allfiles = null;
@@ -134,13 +183,22 @@ namespace soundlib
             for (int i = 0; i < allfiles.Length - 1; ++i)
             {
                 /* returned byte[] array of asset file */
-                this.bytesOfAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
+                if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)         // windows64 solution
+                {
+                    this.bytesOfAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
+                }
+
+                else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)          // mac_os solution
+                {
+                    if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
+                    this.bytesOfAssetsArray[i] = soundlib.MacOs.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
+                }
             }
         }
 
         /* initialize bytesOfReversedAssetsArray byte[][] */
-/* calling in WaterPlayer() constructor */
-/* reversed byte array filled */
+        /* calling in WaterPlayer() constructor */
+        /* reversed byte array filled */
         private void fillBytesOfReversedAssetsArray()
         {
             string[] allfiles = null;
@@ -161,7 +219,16 @@ namespace soundlib
                 for (int i = 0; i < allfiles.Length - 1; ++i)
                 {
                     /* returned byte[] array of reversed asset file */
-                    this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
+                    if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)
+                    {
+                        this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
+                    }
+
+                    else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
+                    {
+                        if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
+                        this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);      // Windows64 method also stable works at mac os
+                    }
                 }
             }
         }
@@ -198,12 +265,13 @@ namespace soundlib
         }
 
         /* @reversedFileByteArray - byte[] array of reversed WAVE file */
-        public void PlayMelodyByByteMemoryStream(byte[] fileByteArray)
+        public void PlayMelodyByByteMemoryStream(byte[] fileByteArray)        // FMOD supporting
         {
             FMOD.Sound sound = new FMOD.Sound();
             var info = new FMOD.CREATESOUNDEXINFO();
 
             // override method cos 1st argument is string by default
+            // FMOD playing by byte array are not supported at most of usings [unstable]
             this.mainSystem.createStream(fileByteArray, FMOD.MODE.CREATESTREAM, ref info, out sound);
 
             this.mainSystem.playSound(sound, channelGroup, false, out mainChannel);

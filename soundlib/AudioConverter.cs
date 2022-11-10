@@ -1,4 +1,5 @@
 ﻿using FMOD;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -315,6 +316,44 @@ namespace soundlib
             public static byte[] convertWaveFileInByteArray(string pathToAudio)
             {
                 return populateForwardsWavFileByteArray(pathToAudio);
+            }
+        }
+    }
+
+    namespace MacOs
+    {
+        internal class AudioConverter : Windows64.AudioConverter
+        {
+            public static new byte[] convertWaveFileInByteArray(string pathToAudio)
+            {
+                byte[] buffer = null;
+                try
+                {
+                    if (!File.Exists(pathToAudio)) throw new FileNotFoundException("Exception: file not exists");
+                }
+
+                catch (FileNotFoundException exception)
+                {
+                    Except.generateException(exception);
+                }
+
+                try
+                {
+                    using (WaveFileReader reader = new WaveFileReader(pathToAudio))       // works only with 16-bit format audio
+                    {
+                        buffer = new byte[reader.Length];
+                        int read = reader.Read(buffer, 0, buffer.Length);
+                        short[] sampleBuffer = new short[read / 2];
+                        Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, read);
+                    }
+                }
+
+                catch(Exception exception)
+                {
+                    Except.generateException(exception);
+                }
+
+                return buffer;
             }
         }
     }
