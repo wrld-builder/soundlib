@@ -10,9 +10,13 @@
   <ItemGroup>
     <None Remove="NAudio" />
     <None Remove="config.json" />
+    <None Remove="System.Windows.Extensions" />
+    <None Remove="NAudio.WinMM" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />
+    <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
+    <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.json">

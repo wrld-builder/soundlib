@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bytes;
+using FMOD;
 
 namespace soundlib
 {
@@ -21,8 +22,19 @@ namespace soundlib
                 }
             });
 
+            var playingByteStreamLoop = new System.Threading.Thread(() =>
+            {
+                while (true)
+                {
+                    wp.PlayMelodyByByteMemoryStreamUsingMacOsExtensions(wp.getBytesOfAssetsArray()[new Random().Next(0, WaterPlayer.getCountOfAssets() - 1)]);
+                }
+            });
+
             playingLoopThread.Start();
+            playingByteStreamLoop.Start();
+
             playingLoopThread.Join();
+            playingByteStreamLoop.Join();
         }
     }
 }

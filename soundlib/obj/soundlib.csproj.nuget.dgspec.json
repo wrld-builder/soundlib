@@ -41,6 +41,14 @@
             "NAudio": {
               "target": "Package",
               "version": "[2.1.0, )"
+            },
+            "NAudio.WinMM": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "System.Windows.Extensions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [

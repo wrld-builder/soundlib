@@ -15,9 +15,11 @@ namespace soundlib
     // for crossplatform code using
     internal class AudioEngine
     {
-        public virtual void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP) { }      // playing sound by reading bytes array using FMOD
+        public static void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP) { }      // playing sound by reading bytes array using FMOD
 
-        public virtual void PlayAudioByteArray(byte[] fileByteArray) { }            // playing sound by reading bytes
+        public static void PlayAudioByteArray(byte[] fileByteArray) { }            // playing sound by reading bytes
+
+        public static void PlayAudioFilename(string fileName) { }                  // playing sound by playing wave file
     }
 
     namespace AudioEngineNamespaceFMOD
@@ -25,7 +27,7 @@ namespace soundlib
         internal class AudioEngineFMOD : AudioEngine
         {
             // FMOD playing by byte array are not supported at most of usings [unstable]
-            public override void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP)
+            public static new void PlayAudioByteArray(FMOD.System mainSystem, FMOD.ChannelGroup channelGroup, FMOD.Channel mainChannel, byte[] fileByteArray, FMOD.DSP mainDSP)
             {
                 FMOD.Sound sound = new FMOD.Sound();
                 var info = new FMOD.CREATESOUNDEXINFO();
@@ -43,13 +45,77 @@ namespace soundlib
         }
     }
 
+    namespace Windows64
+    {
+        namespace AdditionalLibrariesSolutions
+        {
+            internal class AudioEngineAdditionalLibraries : AudioEngine
+            {
+                public static new void PlayAudioFilename(string fileName)
+                {
+                    try
+                    {
+                        if (!File.Exists(fileName)) throw new FileNotFoundException("Exception: file not exists");
+                    }
+
+                    catch (FileNotFoundException exception)
+                    {
+                        Except.generateException(exception);
+                    }
+
+                    try
+                    {
+                        using (var audioFile = new AudioFileReader(fileName))
+                        using (var outputDevice = new WaveOutEvent())
+                        {
+                            outputDevice.Init(audioFile);
+                            outputDevice.Play();
+                            while (outputDevice.PlaybackState == PlaybackState.Playing)
+                            {
+                                System.Threading.Thread.Sleep(1000);
+                            }
+                        }
+                    }
+
+                    catch (Exception exception)
+                    {
+                        Except.generateException(exception);
+                    }
+                }
+            }
+
+            internal class AudioEngineWindows64 : AudioEngine
+            {
+                // playing byte[] array using windows extenssions in project [System.Windows.Extensions.dll]
+                public new static void PlayAudioByteArray(byte[] fileByteArray)
+                {
+                    using(MemoryStream memoryStream = new MemoryStream(fileByteArray))
+                    {
+                        try
+                        {
+                            var soundPlayer = new System.Media.SoundPlayer(memoryStream);
+                            soundPlayer.Play();
+
+                            System.Threading.Thread.Sleep(new Random().Next(5000, 8000));
+                        }
+
+                        catch(PlatformNotSupportedException exception)
+                        {
+                            Except.generateException(exception);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     namespace MacOs
     {
-        internal class AudioEngineWindows64 : AudioEngine
+        internal class AudioEngineMacOs : AudioEngine
         {
-            public override void PlayAudioByteArray(byte[] fileByteArray)
+            public new static void PlayAudioByteArray(byte[] fileByteArray)
             {
-                
+                // mac os stable version?
             }
         }
     }
@@ -190,7 +256,7 @@ namespace soundlib
 
                 else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)          // mac_os solution
                 {
-                    if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
+                    if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS desktop-settings file, which automatically creates [bin]
                     this.bytesOfAssetsArray[i] = soundlib.MacOs.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
                 }
             }
@@ -264,23 +330,19 @@ namespace soundlib
             return allfiles[new Random().Next(0, allfiles.Length)];
         }
 
-        /* @reversedFileByteArray - byte[] array of reversed WAVE file */
         public void PlayMelodyByByteMemoryStream(byte[] fileByteArray)        // FMOD supporting
         {
-            FMOD.Sound sound = new FMOD.Sound();
-            var info = new FMOD.CREATESOUNDEXINFO();
+            AudioEngineNamespaceFMOD.AudioEngineFMOD.PlayAudioByteArray(fileByteArray);
+        }
 
-            // override method cos 1st argument is string by default
-            // FMOD playing by byte array are not supported at most of usings [unstable]
-            this.mainSystem.createStream(fileByteArray, FMOD.MODE.CREATESTREAM, ref info, out sound);
+        public void PlayMelodyByByteMemoryStreamUsingWindowsExtensions(byte[] fileByteArray)       // playing byte[] array using windows extenssions in project [System.Windows.Extensions.dll]
+        {
+            Windows64.AdditionalLibrariesSolutions.AudioEngineWindows64.PlayAudioByteArray(fileByteArray);
+        }
 
-            this.mainSystem.playSound(sound, channelGroup, false, out mainChannel);
-            this.mainSystem.createDSPByType(Helper.FMODHelper.generateRandomDsp(3), out mainDSP);
-            this.mainChannel.addDSP(0, mainDSP);
-            System.Threading.Thread.Sleep(new Random().Next(5000, 8000));
-
-            sound.release();
-            clearDspControlsByIndex(mainDSP);
+        public void PlayMelodyByByteMemoryStreamUsingMacOsExtensions(byte[] fileByteArray)       // playing byte[] array using mac os extenssions in project
+        {
+            MacOs.AudioEngineMacOs.PlayAudioByteArray(fileByteArray);
         }
 
         public void set3DReverbationToSound(FMOD.VECTOR reverbationPosition, float minimalDist, float maximumDist, FMOD.VECTOR listenerPosition,

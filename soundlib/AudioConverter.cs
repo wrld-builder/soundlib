@@ -324,7 +324,7 @@ namespace soundlib
     {
         internal class AudioConverter : Windows64.AudioConverter
         {
-            public static new byte[] convertWaveFileInByteArray(string pathToAudio)
+            public static byte[] convertWaveFileInByteArrayAudioData(string pathToAudio)       // unstable method, copying audio data only
             {
                 byte[] buffer = null;
                 try
@@ -354,6 +354,11 @@ namespace soundlib
                 }
 
                 return buffer;
+            }
+
+            public static new byte[] convertWaveFileInByteArray(string pathToAudio)
+            {
+                return populateForwardsWavFileByteArray(pathToAudio);
             }
         }
     }

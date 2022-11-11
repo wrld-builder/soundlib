@@ -1,19 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "iCUAkYNRr4JZMdsHsRNi+dR0Jkr/4aEIpYefqevRbEnUUDagkg2wfPA7/j8MsaLgy8GcQOVvlXM7IiTT7PtVhg==",
+  "dgSpecHash": "qLUHyLwsV8JneNt9PKOD9qgIwIThhSD+fL7ZT+oOV3c3Hp12Sm73tMRgSbvgyW28ttETLw9ps7iX/0/Fx6MrIw==",
   "success": true,
   "projectFilePath": "/Users/mihailsunin/Desktop/C#/soundlib/soundlib/soundlib.csproj",
   "expectedPackageFiles": [
     "/Users/mihailsunin/.nuget/packages/microsoft.netcore.platforms/3.1.0/microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/microsoft.win32.registry/4.7.0/microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "/Users/mihailsunin/.nuget/packages/microsoft.win32.systemevents/7.0.0/microsoft.win32.systemevents.7.0.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio/2.1.0/naudio.2.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio.asio/2.1.0/naudio.asio.2.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio.core/2.1.0/naudio.core.2.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio.midi/2.1.0/naudio.midi.2.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio.wasapi/2.1.0/naudio.wasapi.2.1.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/naudio.winmm/2.1.0/naudio.winmm.2.1.0.nupkg.sha512",
+    "/Users/mihailsunin/.nuget/packages/system.drawing.common/7.0.0/system.drawing.common.7.0.0.nupkg.sha512",
     "/Users/mihailsunin/.nuget/packages/system.security.accesscontrol/4.7.0/system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "/Users/mihailsunin/.nuget/packages/system.security.principal.windows/4.7.0/system.security.principal.windows.4.7.0.nupkg.sha512"
+    "/Users/mihailsunin/.nuget/packages/system.security.principal.windows/4.7.0/system.security.principal.windows.4.7.0.nupkg.sha512",
+    "/Users/mihailsunin/.nuget/packages/system.windows.extensions/7.0.0/system.windows.extensions.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }
