@@ -12,11 +12,18 @@
     <None Remove="config.json" />
     <None Remove="System.Windows.Extensions" />
     <None Remove="NAudio.WinMM" />
+    <None Remove="Bass.Net" />
+    <None Remove="BASS" />
+    <None Remove="CSCore" />
+    <None Remove="ManagedBass" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
     <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
+    <PackageReference Include="CSCore" Version="1.2.1.2" />
+    <PackageReference Include="ManagedBass" Version="3.1.1" />
+    <PackageReference Include="BASS" Version="2.4.12.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.json">

@@ -38,6 +38,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "BASS": {
+              "target": "Package",
+              "version": "[2.4.12.1, )"
+            },
+            "CSCore": {
+              "target": "Package",
+              "version": "[1.2.1.2, )"
+            },
+            "ManagedBass": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
             "NAudio": {
               "target": "Package",
               "version": "[2.1.0, )"
@@ -67,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

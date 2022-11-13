@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Media;
 using FMOD;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Threading.Channels;
+using System.Collections;
 
 namespace soundlib
 {
@@ -116,6 +120,31 @@ namespace soundlib
             public new static void PlayAudioByteArray(byte[] fileByteArray)
             {
                 // mac os stable version?
+                int localStream = 0;
+                try
+                {
+                    if (ManagedBass.Bass.Init())
+                    {
+                        localStream = ManagedBass.Bass.CreateStream(fileByteArray, 0, fileByteArray.Length, ManagedBass.BassFlags.Default);
+
+                        if (localStream != 0)
+                        {
+                            ManagedBass.Bass.ChannelPlay(localStream);
+                        }
+                    }
+                }
+
+                catch(Exception exception)
+                {
+                    Except.generateException(exception);
+                }
+
+                finally
+                {
+                    System.Threading.Thread.Sleep(new Random().Next(5000, 8000));
+                    ManagedBass.Bass.StreamFree(localStream);
+                    ManagedBass.Bass.Free();
+                }
             }
         }
     }
@@ -246,10 +275,28 @@ namespace soundlib
                 Except.generateException(exception);
             }
 
+            finally
+            {
+                if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
+                {
+                    for(int i = 0; i < allfiles.Length; ++i)
+                    {
+                        if (allfiles[i] == assetsDir + ".DS_Store")
+                        {
+                            var buffer = new List<string>(allfiles);
+                            buffer.RemoveAt(i);
+                            allfiles = buffer.ToArray();
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < allfiles.Length - 1; ++i)
             {
+                if (allfiles[i] is null) continue;
+
                 /* returned byte[] array of asset file */
-                if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)         // windows64 solution
+                else if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)         // windows64 solution
                 {
                     this.bytesOfAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
                 }
@@ -282,21 +329,35 @@ namespace soundlib
 
             finally
             {
-                for (int i = 0; i < allfiles.Length - 1; ++i)
+                if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
                 {
-                    /* returned byte[] array of reversed asset file */
-                    if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)
+                    for (int i = 0; i < allfiles.Length; ++i)
                     {
-                        this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
-                    }
-
-                    else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
-                    {
-                        if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
-                        this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);      // Windows64 method also stable works at mac os
+                        if (allfiles[i] == assetsDir + ".DS_Store")
+                        {
+                            var buffer = new List<string>(allfiles);
+                            buffer.RemoveAt(i);
+                            allfiles = buffer.ToArray();
+                        }
                     }
                 }
             }
+
+            for (int i = 0; i < allfiles.Length - 1; ++i)
+            {
+                /* returned byte[] array of reversed asset file */
+                if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)
+                {
+                    this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
+                }
+
+                else if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
+                {
+                    if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
+                    this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);      // Windows64 method also stable works at mac os
+                }
+            }
+            
         }
 
         /* get count of assets in assets directory */
@@ -305,6 +366,7 @@ namespace soundlib
             int count = 0;
             foreach (var filename in Directory.GetFiles(assetsDir))
             {
+                if (filename == assetsDir + ".DS_Store") continue;
                 ++count;
             }
 

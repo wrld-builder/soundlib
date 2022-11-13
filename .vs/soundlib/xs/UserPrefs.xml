@@ -1,12 +1,16 @@
 ﻿<Properties StartupConfiguration="{953B9741-07D3-4559-B120-1D2597097BA2}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="soundlib/audio_engine.cs">
     <Files>
-      <File FileName="soundlib/main.cs" Line="33" Column="39" IsPinned="True" />
+      <File FileName="soundlib/main.cs" Line="29" Column="33" IsPinned="True" />
       <File FileName="soundlib/ByteWrapper.cs" Line="12" Column="26" />
       <File FileName="soundlib/Except.cs" Line="22" Column="2" />
-      <File FileName="soundlib/audio_engine.cs" Line="258" Column="14" />
-      <File FileName="soundlib/AudioConverter.cs" Line="8" Column="19" />
+      <File FileName="soundlib/audio_engine.cs" Line="111" Column="6" />
+      <File FileName="soundlib/AudioConverter.cs" Line="361" Column="70" />
       <File FileName="soundlib/Helper.cs" Line="130" Column="86" />
       <File FileName="soundlib/config.json" Line="3" Column="28" />
     </Files>
@@ -16,7 +20,6 @@
           <Node name="soundlib" expanded="True">
             <Node name="soundlib" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="audio_engine.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -26,10 +29,6 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

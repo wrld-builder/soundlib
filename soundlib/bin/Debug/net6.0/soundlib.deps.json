@@ -8,12 +8,37 @@
     ".NETCoreApp,Version=v6.0": {
       "soundlib/1.0.0": {
         "dependencies": {
+          "BASS": "2.4.12.1",
+          "CSCore": "1.2.1.2",
+          "ManagedBass": "3.1.1",
           "NAudio": "2.1.0",
           "NAudio.WinMM": "2.1.0",
           "System.Windows.Extensions": "7.0.0"
         },
         "runtime": {
           "soundlib.dll": {}
+        }
+      },
+      "BASS/2.4.12.1": {
+        "dependencies": {
+          "BASS.redist": "2.4.12.1"
+        }
+      },
+      "BASS.redist/2.4.12.1": {},
+      "CSCore/1.2.1.2": {
+        "runtime": {
+          "lib/net35-client/CSCore.dll": {
+            "assemblyVersion": "1.2.1.2",
+            "fileVersion": "1.2.1.2"
+          }
+        }
+      },
+      "ManagedBass/3.1.1": {
+        "runtime": {
+          "lib/netstandard1.4/ManagedBass.dll": {
+            "assemblyVersion": "3.1.1.0",
+            "fileVersion": "3.1.1.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},
@@ -160,6 +185,34 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BASS/2.4.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zFuaBYGCLMMHGJQpTIAMaWDg8/0gkcKZu8DsCj+NteyNCo76lfLQ2JZyc9F2HCcmlgteutEmBaJYyi3e7FTRbw==",
+      "path": "bass/2.4.12.1",
+      "hashPath": "bass.2.4.12.1.nupkg.sha512"
+    },
+    "BASS.redist/2.4.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GPdsT0LjryCjyf7iA0FLRqdULULAGUctgtN0eVyqVFIQINTTjwpk+9VaQo3y6VvnXc+G3slNnirXbYxRywZiAQ==",
+      "path": "bass.redist/2.4.12.1",
+      "hashPath": "bass.redist.2.4.12.1.nupkg.sha512"
+    },
+    "CSCore/1.2.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DoQKUcdZLQawo3mOg8CvujJD9YkvTt6NtEu7S+OCo8+ySl8eCeUw4LFyL2E1OcAkPU918HZM6sUNcvIMcXWg6g==",
+      "path": "cscore/1.2.1.2",
+      "hashPath": "cscore.1.2.1.2.nupkg.sha512"
+    },
+    "ManagedBass/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qaIIM2VEmZ9DaNCIu306aXi5zS8LZQjo0SNkLb3AjkpxKXA9K/O/LndCogC+cJPb2IKeChJEEXR42JEe6UTq/A==",
+      "path": "managedbass/3.1.1",
+      "hashPath": "managedbass.3.1.1.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",

@@ -2,6 +2,41 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "BASS/2.4.12.1": {
+        "type": "package",
+        "dependencies": {
+          "BASS.redist": "2.4.12.1"
+        }
+      },
+      "BASS.redist/2.4.12.1": {
+        "type": "package"
+      },
+      "CSCore/1.2.1.2": {
+        "type": "package",
+        "compile": {
+          "lib/net35-client/CSCore.dll": {
+            "related": ".XML"
+          }
+        },
+        "runtime": {
+          "lib/net35-client/CSCore.dll": {
+            "related": ".XML"
+          }
+        }
+      },
+      "ManagedBass/3.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.4/ManagedBass.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.4/ManagedBass.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.NETCore.Platforms/3.1.0": {
         "type": "package",
         "compile": {
@@ -18,10 +53,14 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
+          "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
@@ -37,10 +76,14 @@
       "Microsoft.Win32.SystemEvents/7.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {}
+          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {}
+          "lib/net6.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
@@ -62,10 +105,14 @@
           "NAudio.WinMM": "2.1.0"
         },
         "compile": {
-          "lib/net6.0/NAudio.dll": {}
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/NAudio.dll": {}
+          "lib/net6.0/NAudio.dll": {
+            "related": ".xml"
+          }
         }
       },
       "NAudio.Asio/2.1.0": {
@@ -133,10 +180,14 @@
           "Microsoft.Win32.SystemEvents": "7.0.0"
         },
         "compile": {
-          "lib/net6.0/System.Drawing.Common.dll": {}
+          "lib/net6.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/System.Drawing.Common.dll": {}
+          "lib/net6.0/System.Drawing.Common.dll": {
+            "related": ".xml"
+          }
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
@@ -155,10 +206,14 @@
           "System.Security.Principal.Windows": "4.7.0"
         },
         "compile": {
-          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/System.Security.AccessControl.dll": {}
+          "lib/netstandard2.0/System.Security.AccessControl.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {
@@ -170,10 +225,14 @@
       "System.Security.Principal.Windows/4.7.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {}
+          "ref/netcoreapp3.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/System.Security.Principal.Windows.dll": {}
+          "lib/netstandard2.0/System.Security.Principal.Windows.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
@@ -192,10 +251,14 @@
           "System.Drawing.Common": "7.0.0"
         },
         "compile": {
-          "lib/net6.0/System.Windows.Extensions.dll": {}
+          "lib/net6.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/System.Windows.Extensions.dll": {}
+          "lib/net6.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         },
         "runtimeTargets": {
           "runtimes/win/lib/net6.0/System.Windows.Extensions.dll": {
@@ -207,6 +270,74 @@
     }
   },
   "libraries": {
+    "BASS/2.4.12.1": {
+      "sha512": "zFuaBYGCLMMHGJQpTIAMaWDg8/0gkcKZu8DsCj+NteyNCo76lfLQ2JZyc9F2HCcmlgteutEmBaJYyi3e7FTRbw==",
+      "type": "package",
+      "path": "bass/2.4.12.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bass.2.4.12.1.nupkg.sha512",
+        "bass.nuspec",
+        "build/configurations.autopkg",
+        "build/native/BASS.targets",
+        "build/native/default-propertiesui.xml",
+        "build/native/docs/bass.chm",
+        "build/native/include/bass.h",
+        "build/native/lib/Win32/bass.lib",
+        "build/native/lib/x64/bass.lib",
+        "build/publisher-info.txt"
+      ]
+    },
+    "BASS.redist/2.4.12.1": {
+      "sha512": "GPdsT0LjryCjyf7iA0FLRqdULULAGUctgtN0eVyqVFIQINTTjwpk+9VaQo3y6VvnXc+G3slNnirXbYxRywZiAQ==",
+      "type": "package",
+      "path": "bass.redist/2.4.12.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bass.redist.2.4.12.1.nupkg.sha512",
+        "bass.redist.nuspec",
+        "build/configurations.autopkg",
+        "build/native/BASS.redist.targets",
+        "build/native/bin/Win32/bass.dll",
+        "build/native/bin/x64/bass.dll",
+        "build/native/default-propertiesui.xml",
+        "build/publisher-info.txt"
+      ]
+    },
+    "CSCore/1.2.1.2": {
+      "sha512": "DoQKUcdZLQawo3mOg8CvujJD9YkvTt6NtEu7S+OCo8+ySl8eCeUw4LFyL2E1OcAkPU918HZM6sUNcvIMcXWg6g==",
+      "type": "package",
+      "path": "cscore/1.2.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cscore.1.2.1.2.nupkg.sha512",
+        "cscore.nuspec",
+        "lib/net35-client/CSCore.XML",
+        "lib/net35-client/CSCore.dll"
+      ]
+    },
+    "ManagedBass/3.1.1": {
+      "sha512": "qaIIM2VEmZ9DaNCIu306aXi5zS8LZQjo0SNkLb3AjkpxKXA9K/O/LndCogC+cJPb2IKeChJEEXR42JEe6UTq/A==",
+      "type": "package",
+      "path": "managedbass/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "icon.png",
+        "lib/Xamarin.iOS/ManagedBass.dll",
+        "lib/Xamarin.iOS/ManagedBass.xml",
+        "lib/net45/ManagedBass.dll",
+        "lib/net45/ManagedBass.xml",
+        "lib/netstandard1.4/ManagedBass.dll",
+        "lib/netstandard1.4/ManagedBass.xml",
+        "managedbass.3.1.1.nupkg.sha512",
+        "managedbass.nuspec"
+      ]
+    },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "sha512": "z7aeg8oHln2CuNulfhiLYxCVMPEwBl3rzicjvIX+4sUuCwvXw5oXQEtbiU2c0z4qYL5L3Kmx0mMA/+t/SbY67w==",
       "type": "package",
@@ -553,6 +684,9 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "BASS >= 2.4.12.1",
+      "CSCore >= 1.2.1.2",
+      "ManagedBass >= 3.1.1",
       "NAudio >= 2.1.0",
       "NAudio.WinMM >= 2.1.0",
       "System.Windows.Extensions >= 7.0.0"
@@ -595,6 +729,18 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "BASS": {
+            "target": "Package",
+            "version": "[2.4.12.1, )"
+          },
+          "CSCore": {
+            "target": "Package",
+            "version": "[1.2.1.2, )"
+          },
+          "ManagedBass": {
+            "target": "Package",
+            "version": "[3.1.1, )"
+          },
           "NAudio": {
             "target": "Package",
             "version": "[2.1.0, )"
@@ -624,8 +770,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CSCore 1.2.1.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CSCore",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
