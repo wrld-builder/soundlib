@@ -1,4 +1,5 @@
 ﻿{
   "name": "muteitapp",
-  "compilation_os": "mac_os"
+  "compilation_os": "mac_os",
+  "version": "1.0"
 }

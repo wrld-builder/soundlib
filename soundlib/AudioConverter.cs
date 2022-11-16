@@ -233,7 +233,7 @@ namespace soundlib
 
             /* create array by static constants in static internal class  */
             /* constants replaced. startIndexOfDataChunk in args = {} */
-            public static byte[] createForwardsArrayWithOnlyHeaders(byte[] forwardsWavFileStreamByteArray, int startIndexOfDataChunk)
+            public static byte[] createForwardsArrayWithOnlyHeaders(byte[] forwardsWavFileStreamByteArray, int startIndexOfDataChunk)        // get only audio data from file
             {
                 byte[] forwardsArrayWithOnlyHeaders = new byte[startIndexOfDataChunk];
                 Array.Copy(forwardsWavFileStreamByteArray, 0, forwardsArrayWithOnlyHeaders, 0, startIndexOfDataChunk);

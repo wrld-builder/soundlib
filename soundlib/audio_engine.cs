@@ -27,6 +27,44 @@ namespace soundlib
 
         public static void PlayAudioFilename(string fileName) { }                  // playing sound by playing wave file
 
+        private static byte[] createTrimmingMerge(KeyValuePair<int, int> randomRange, int countOfBuffers = 2)
+        {
+            byte[] resultBuffer = null;
+
+            try
+            {
+                for (int i = 0; i < countOfBuffers; ++i)
+                {
+                    string randomAsset = WaterPlayer.getRandomAssetFile();
+
+                    byte[] buffer = Bytes.WaveFileUtils.CutGetByteArray(randomAsset, new Random().Next(randomRange.Key, randomRange.Value));
+
+                    int startIndexOfDataChunk = Windows64.AudioConverter.getStartIndexOfDataChunk(buffer);
+
+                    byte[] onlyHeaders = Windows64.AudioConverter.createForwardsArrayWithOnlyHeaders(buffer, startIndexOfDataChunk);
+
+                    byte[] onlyAudioData = Windows64.AudioConverter.createForwardsArrayWithOnlyAudioData(buffer, startIndexOfDataChunk);
+
+                    if (resultBuffer is null)
+                    {
+                        resultBuffer = Windows64.AudioConverter.combineArrays(onlyHeaders, onlyAudioData);
+                    }
+
+                    else
+                    {
+                        resultBuffer = Windows64.AudioConverter.combineArrays(resultBuffer, onlyAudioData);
+                    }
+                }
+            }
+
+            catch(Exception exception)
+            {
+                Except.generateException(exception);
+            }
+
+            return resultBuffer;
+        }
+
         protected static PlayingStateEffectUtils ChooseRandomPLayingEffectUtil() => (PlayingStateEffectUtils)(new Random().Next(Convert.ToInt32(PlayingStateEffectUtils.FIRST) + 1, Convert.ToInt32(PlayingStateEffectUtils.END) - 1));      // getting random effect util
 
         protected static byte[] getFileByteArrayWithEffectUtilSetted(PlayingStateEffectUtils effectUtil, byte[] fileByteArray, int byteArrayindex = 0)          // set effect util to file byte[] array
@@ -41,7 +79,7 @@ namespace soundlib
                 case PlayingStateEffectUtils.INVERSED:
                     return Bytes.ByteWrapper.inverseByteArray(fileByteArray);
                 case PlayingStateEffectUtils.TRIMMED:
-                    return Bytes.WaveFileUtils.CutGetByteArray(WaterPlayer.getRandomAssetFile(), new Random().Next(2, 6));
+                    return createTrimmingMerge(new KeyValuePair<int, int>(1, 7), 5);
                 default:
                     Environment.Exit(1);
                     break;
