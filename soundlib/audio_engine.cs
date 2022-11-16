@@ -13,6 +13,8 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading.Channels;
 using System.Collections;
+using CSCore.Win32;
+using ManagedBass;
 
 namespace soundlib
 {
@@ -24,6 +26,39 @@ namespace soundlib
         public static void PlayAudioByteArray(byte[] fileByteArray) { }            // playing sound by reading bytes
 
         public static void PlayAudioFilename(string fileName) { }                  // playing sound by playing wave file
+
+        protected static PlayingStateEffectUtils ChooseRandomPLayingEffectUtil() => (PlayingStateEffectUtils)(new Random().Next(Convert.ToInt32(PlayingStateEffectUtils.FIRST) + 1, Convert.ToInt32(PlayingStateEffectUtils.END) - 1));      // getting random effect util
+
+        protected static byte[] getFileByteArrayWithEffectUtilSetted(PlayingStateEffectUtils effectUtil, byte[] fileByteArray, int byteArrayindex = 0)          // set effect util to file byte[] array
+        {
+            byteArrayindex = Array.IndexOf(WaterPlayer.getBytesOfAssetsArray(), fileByteArray);
+            switch (effectUtil)
+            {
+                case PlayingStateEffectUtils.DEFAULT:
+                    return fileByteArray;
+                case PlayingStateEffectUtils.REVERSE:
+                    return WaterPlayer.getBytesOfReversedAssetsArray()[byteArrayindex];
+                case PlayingStateEffectUtils.INVERSED:
+                    return Bytes.ByteWrapper.inverseByteArray(fileByteArray);
+                case PlayingStateEffectUtils.TRIMMED:
+                    return Bytes.WaveFileUtils.CutGetByteArray(WaterPlayer.getRandomAssetFile(), new Random().Next(2, 6));
+                default:
+                    Environment.Exit(1);
+                    break;
+            }
+
+            return null;
+        }
+
+        protected enum PlayingStateEffectUtils
+        {
+            FIRST = 0,
+            DEFAULT,      // default playing byte[] sound array
+            TRIMMED,          // trim byte[] sound array
+            INVERSED,       // inverse byte[] sound array
+            REVERSE,           // reverse byte[] sound array
+            END
+        }
     }
 
     namespace AudioEngineNamespaceFMOD
@@ -74,7 +109,7 @@ namespace soundlib
                         {
                             outputDevice.Init(audioFile);
                             outputDevice.Play();
-                            while (outputDevice.PlaybackState == PlaybackState.Playing)
+                            while (outputDevice.PlaybackState == NAudio.Wave.PlaybackState.Playing)
                             {
                                 System.Threading.Thread.Sleep(1000);
                             }
@@ -117,15 +152,17 @@ namespace soundlib
     {
         internal class AudioEngineMacOs : AudioEngine
         {
-            public new static void PlayAudioByteArray(byte[] fileByteArray)
+            public static new void PlayAudioByteArray(byte[] fileByteArray)      // stable using of bass.dll extensions
             {
-                // mac os stable version?
                 int localStream = 0;
                 try
                 {
                     if (ManagedBass.Bass.Init())
                     {
-                        localStream = ManagedBass.Bass.CreateStream(fileByteArray, 0, fileByteArray.Length, ManagedBass.BassFlags.Default);
+                        var randomEffectUtil = AudioEngine.ChooseRandomPLayingEffectUtil();
+                        var bufferToPlay = AudioEngine.getFileByteArrayWithEffectUtilSetted(randomEffectUtil, fileByteArray);
+
+                        localStream = ManagedBass.Bass.CreateStream(bufferToPlay, 0, bufferToPlay.Length, ManagedBass.BassFlags.Default);
 
                         if (localStream != 0)
                         {
@@ -141,7 +178,7 @@ namespace soundlib
 
                 finally
                 {
-                    System.Threading.Thread.Sleep(new Random().Next(5000, 8000));
+                    System.Threading.Thread.Sleep(new Random().Next(2000, 8000));
                     ManagedBass.Bass.StreamFree(localStream);
                     ManagedBass.Bass.Free();
                 }
@@ -169,13 +206,13 @@ namespace soundlib
 
         private Helper.OS.TypeOS typeOS = Helper.OS.SystemInfoGetter.getTypeOfOperationSystem();         // get operation system info (using for crossplatfrom)
 
-        private byte[][] bytesOfAssetsArray = new byte[getCountOfAssets() - 1][];            // bytes array for all assets without reversed (initial assets)
+        private static byte[][] bytesOfAssetsArray = new byte[getCountOfAssets() - 1][];            // bytes array for all assets without reversed (initial assets)
 
-        private byte[][] bytesOfReversedAssetsArray = new byte[getCountOfAssets() - 1][];       // bytes array only for reversed assets
+        private static byte[][] bytesOfReversedAssetsArray = new byte[getCountOfAssets() - 1][];       // bytes array only for reversed assets
 
-        public byte[][] getBytesOfAssetsArray() => this.bytesOfAssetsArray;
+        public static byte[][] getBytesOfAssetsArray() => bytesOfAssetsArray;
 
-        public byte[][] getBytesOfReversedAssetsArray() => this.bytesOfReversedAssetsArray;
+        public static byte[][] getBytesOfReversedAssetsArray() => bytesOfReversedAssetsArray;
 
         public string getAssetsDir() => assetsDir;
 
@@ -262,11 +299,10 @@ namespace soundlib
                                                                 /* calling in WaterPlayer() constructor */
         private void fillBytesOfAssetsArray()
         {
-            string[] allfiles = null;
+            string[] allfiles = Directory.GetFiles(assetsDir);
 
             try
             {
-                allfiles = Directory.GetFiles(assetsDir);
                 if (allfiles is null) throw new Exception("Exception: dir is empty");
             }
 
@@ -298,13 +334,13 @@ namespace soundlib
                 /* returned byte[] array of asset file */
                 else if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)         // windows64 solution
                 {
-                    this.bytesOfAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
+                    WaterPlayer.bytesOfAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
                 }
 
                 else if(this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)          // mac_os solution
                 {
                     if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS desktop-settings file, which automatically creates [bin]
-                    this.bytesOfAssetsArray[i] = soundlib.MacOs.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
+                    WaterPlayer.bytesOfAssetsArray[i] = soundlib.MacOs.AudioConverter.convertWaveFileInByteArray(allfiles[i]);
                 }
             }
         }
@@ -348,13 +384,13 @@ namespace soundlib
                 /* returned byte[] array of reversed asset file */
                 if (this.typeOS == Helper.OS.TypeOS.WINDOWS_SYSTEM)
                 {
-                    this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
+                    WaterPlayer.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);
                 }
 
                 else if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
                 {
                     if (allfiles[i] == assetsDir + ".DS_Store") continue;           // specially MAC OS file, bin
-                    this.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);      // Windows64 method also stable works at mac os
+                    WaterPlayer.bytesOfReversedAssetsArray[i] = soundlib.Windows64.AudioConverter.convertWaveFileInReversedByteArray(allfiles[i]);      // Windows64 method also stable works at mac os
                 }
             }
             
@@ -374,7 +410,7 @@ namespace soundlib
         }
 
         /* get random asset file from const assetDir */
-        protected string getRandomAssetFile()
+        public static string getRandomAssetFile()
         {
             string[] allfiles = null;
 
@@ -498,7 +534,7 @@ namespace soundlib
                         wasApiOut.Init(mediaFoundation);
                         wasApiOut.Play();
 
-                        while (wasApiOut.PlaybackState == PlaybackState.Playing) System.Threading.Thread.Sleep(1000);
+                        while (wasApiOut.PlaybackState == NAudio.Wave.PlaybackState.Playing) System.Threading.Thread.Sleep(1000);
                     }
                 }
             }

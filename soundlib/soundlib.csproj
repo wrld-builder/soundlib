@@ -16,6 +16,7 @@
     <None Remove="BASS" />
     <None Remove="CSCore" />
     <None Remove="ManagedBass" />
+    <None Remove="NWaves" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />

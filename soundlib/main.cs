@@ -18,7 +18,7 @@ namespace soundlib
             {
                 while (true)
                 {
-                    wp.playAudioUsingFMOD(FMOD.MODE.CREATESTREAM | FMOD.MODE.CREATESAMPLE, Helper.FMODHelper.generateRandomDsp(1));
+                    wp.playAudioUsingFMOD(FMOD.MODE.CREATESTREAM | FMOD.MODE.CREATESAMPLE, Helper.FMODHelper.generateRandomDsp(new Random().Next(1, 4)));
                 }
             });
 
@@ -26,7 +26,7 @@ namespace soundlib
             {
                 while (true)
                 {
-                    wp.PlayMelodyByByteMemoryStreamUsingMacOsExtensions(wp.getBytesOfAssetsArray()[new Random().Next(0, WaterPlayer.getCountOfAssets() - 1)]);
+                    wp.PlayMelodyByByteMemoryStreamUsingMacOsExtensions(WaterPlayer.getBytesOfAssetsArray()[new Random().Next(0, WaterPlayer.getCountOfAssets() - 1)]);
                 }
             });
 

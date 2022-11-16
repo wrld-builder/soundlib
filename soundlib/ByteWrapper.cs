@@ -149,7 +149,7 @@ namespace Bytes
 
             try
             {
-                newByteArray = AudioConverter.convertWaveFileInByteArray(outputPath);
+                newByteArray = AudioConverter.populateForwardsWavFileByteArray(outputPath);
                 if (newByteArray is null) throw new Exception("Exception: byte array is null");
             }
 

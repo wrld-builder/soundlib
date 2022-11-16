@@ -1,18 +1,14 @@
 ﻿<Properties StartupConfiguration="{953B9741-07D3-4559-B120-1D2597097BA2}|Default">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="soundlib/audio_engine.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="soundlib/main.cs">
     <Files>
-      <File FileName="soundlib/main.cs" Line="29" Column="33" IsPinned="True" />
-      <File FileName="soundlib/ByteWrapper.cs" Line="12" Column="26" />
-      <File FileName="soundlib/Except.cs" Line="22" Column="2" />
-      <File FileName="soundlib/audio_engine.cs" Line="111" Column="6" />
-      <File FileName="soundlib/AudioConverter.cs" Line="361" Column="70" />
-      <File FileName="soundlib/Helper.cs" Line="130" Column="86" />
-      <File FileName="soundlib/config.json" Line="3" Column="28" />
+      <File FileName="soundlib/main.cs" Line="21" Column="153" IsPinned="True" />
+      <File FileName="soundlib/ByteWrapper.cs" />
+      <File FileName="soundlib/Except.cs" />
+      <File FileName="soundlib/audio_engine.cs" Line="17" Column="19" />
+      <File FileName="soundlib/AudioConverter.cs" Line="1" Column="1" />
+      <File FileName="soundlib/Helper.cs" Line="15" Column="14" />
+      <File FileName="soundlib/config.json" Line="4" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,15 +16,17 @@
           <Node name="soundlib" expanded="True">
             <Node name="soundlib" expanded="True">
               <Node name="Dependencies" expanded="True" />
+              <Node name="main.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.soundlib PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

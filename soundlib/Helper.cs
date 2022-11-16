@@ -44,6 +44,8 @@ namespace Helper
 
             public string name { get; }
 
+            public string version { get; }
+
             // constructor for inline using with fileStream and json serializer
             public OsHelper(string compilation_os, string name)
             {
