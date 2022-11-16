@@ -353,15 +353,7 @@ namespace soundlib
             {
                 if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
                 {
-                    for(int i = 0; i < allfiles.Length; ++i)
-                    {
-                        if (allfiles[i] == assetsDir + ".DS_Store")
-                        {
-                            var buffer = new List<string>(allfiles);
-                            buffer.RemoveAt(i);
-                            allfiles = buffer.ToArray();
-                        }
-                    }
+                    allfiles = Helper.MacOs.MacOsHelper.deleteDsStoreFileFromAssetDir(allfiles, assetsDir);
                 }
             }
 
@@ -388,11 +380,10 @@ namespace soundlib
         /* reversed byte array filled */
         private void fillBytesOfReversedAssetsArray()
         {
-            string[] allfiles = null;
+            string[] allfiles = Directory.GetFiles(assetsDir);
 
             try
             {
-                allfiles = Directory.GetFiles(assetsDir);
                 if (allfiles is null) throw new Exception("Exception: dir is empty");
             }
 
@@ -405,15 +396,7 @@ namespace soundlib
             {
                 if (this.typeOS == Helper.OS.TypeOS.MAC_OS_SYSTEM)
                 {
-                    for (int i = 0; i < allfiles.Length; ++i)
-                    {
-                        if (allfiles[i] == assetsDir + ".DS_Store")
-                        {
-                            var buffer = new List<string>(allfiles);
-                            buffer.RemoveAt(i);
-                            allfiles = buffer.ToArray();
-                        }
-                    }
+                    allfiles = Helper.MacOs.MacOsHelper.deleteDsStoreFileFromAssetDir(allfiles, assetsDir);
                 }
             }
 
@@ -462,6 +445,8 @@ namespace soundlib
             {
                 Except.generateException(exception);
             }
+
+            allfiles = Helper.MacOs.MacOsHelper.deleteDsStoreFileFromAssetDir(allfiles, assetsDir);
 
             return allfiles[new Random().Next(0, allfiles.Length)];
         }

@@ -168,21 +168,29 @@ namespace Bytes
 
         private static void TrimWavFile(string inPath, string outPath, TimeSpan duration)
         {
-            using (WaveFileReader reader = new WaveFileReader(inPath))
+            try
             {
-                using (WaveFileWriter writer = new WaveFileWriter(outPath, reader.WaveFormat))
+                using (WaveFileReader reader = new WaveFileReader(inPath))
                 {
-                    float bytesPerMillisecond = reader.WaveFormat.AverageBytesPerSecond / 1000f;
+                    using (WaveFileWriter writer = new WaveFileWriter(outPath, reader.WaveFormat))
+                    {
+                        float bytesPerMillisecond = reader.WaveFormat.AverageBytesPerSecond / 1000f;
 
-                    int startPos = 0;
-                    startPos = startPos - startPos % reader.WaveFormat.BlockAlign;
+                        int startPos = 0;
+                        startPos = startPos - startPos % reader.WaveFormat.BlockAlign;
 
-                    int endBytes = (int)Math.Round(duration.TotalMilliseconds * bytesPerMillisecond);
-                    endBytes = endBytes - endBytes % reader.WaveFormat.BlockAlign;
-                    int endPos = endBytes;
+                        int endBytes = (int)Math.Round(duration.TotalMilliseconds * bytesPerMillisecond);
+                        endBytes = endBytes - endBytes % reader.WaveFormat.BlockAlign;
+                        int endPos = endBytes;
 
-                    TrimWavFile(reader, writer, startPos, endBytes);
+                        TrimWavFile(reader, writer, startPos, endBytes);
+                    }
                 }
+            }
+
+            catch(Exception exception)
+            {
+                Except.generateException(exception);
             }
         }
 

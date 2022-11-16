@@ -4,6 +4,27 @@ using FMOD;
 
 namespace Helper
 {
+    namespace MacOs
+    {
+        internal static class MacOsHelper
+        {
+            public static string[] deleteDsStoreFileFromAssetDir(string[] allfiles, string assetsDir)       // delete bin file .DS_Store from asset dir (else wrong working)
+            {
+                for (int i = 0; i < allfiles.Length; ++i)
+                {
+                    if (allfiles[i] == assetsDir + ".DS_Store")
+                    {
+                        var buffer = new List<string>(allfiles);
+                        buffer.RemoveAt(i);
+                        allfiles = buffer.ToArray();
+                    }
+                }
+
+                return allfiles;
+            }
+        }
+    }
+
     internal static class FMODHelper
     {
         // generating random DSP effects (using already preparing effects)
