@@ -1,0 +1,7 @@
+*.sln
+.vs/
+.git/
+*.log
+obj/
+bin/
+.DS_Store
